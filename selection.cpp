@@ -1,4 +1,6 @@
 #include "selection.h"
+#include <algorithm>
+#include <stdexcept>
 
 using namespace std;
 
@@ -6,19 +8,23 @@ Selection::Selection(const string& selectionName, const vector<Game>& games, con
     : selectionName{ selectionName }, games{ games }, platform{ platform }
 {
     if (selectionName.empty()) {
-        throw runtime_error("Error!");
+        throw std::runtime_error("Invalid selection name");
     }
 }
 
 bool Selection::isReady() const {
-    for (size_t i = 0; i < games.size(); i++) {
-        for (size_t j = 0; j < games.at(i).getPlatforms().size(); j++) {
-            if (games.at(i).getPlatforms().at(j) != platform) {
-                return false;
-            }
+   return std::all_of(games.begin(), games.end(),
+        [this](const Game& g)
+        {
+            const auto& platforms = g.getPlatforms();
+
+            return std::all_of(platforms.begin(), platforms.end(),
+                [this](Platform p)
+                {
+                    return p == platform;
+                });
         }
-    }
-    return true;
+    );
 }
 
 ostream& operator<<(ostream& os, const Selection& selection) {
@@ -27,17 +33,12 @@ ostream& operator<<(ostream& os, const Selection& selection) {
        << platformNames.at(static_cast<int>(selection.platform)) << ", {";
 
     for (size_t i = 0; i < selection.games.size(); i++) {
-        os << selection.games.at(i);
+        os << selection.games[i];
 
-        if (i != selection.games.size() - 1) {
+        if (i + 1 < selection.games.size()) {
             os << ", ";
         }
     }
 
-    os << "}, ";
-
-    if (selection.isReady()) os << "ready";
-    else os << "not ready";
-
-    return os << "]";
+    return os << "}, " << (selection.isReady() ? "ready" : "not ready") << "]";
 }

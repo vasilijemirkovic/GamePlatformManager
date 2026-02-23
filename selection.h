@@ -10,6 +10,11 @@ private:
     std::vector<Game> games;
     Platform platform;
 
+    //Private methods for validating a correctness of the input values
+    void validateGames() const;
+    bool containsDuplicates() const;
+    bool allGamesSupportPlatform() const;
+
 public:
     Selection(const std::string& selectionName, const std::vector<Game>& games,
               const Platform& platform = Platform::Nintendo);

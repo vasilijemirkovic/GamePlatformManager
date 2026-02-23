@@ -7,7 +7,7 @@
 #include <vector>
 
 enum class Platform { Nintendo, Sony, Microsoft, PC };
-extern std::vector<std::string> platformNames;
+extern const std::vector<std::string> platformNames;
 
 class Game {
     
@@ -23,13 +23,14 @@ public:
     bool supportsPlatform(Platform p) const;
     int addPlatforms(const std::vector<Platform>& morePlatforms);
 
-    friend bool operator>(const Game&, const Game&);
+    const std::vector<Platform>& getPlatforms() const noexcept;
 
     static std::vector<Game> filterByPlatform(const std::vector<Game>& games, Platform p);
 
-    friend std::ostream& operator<<(std::ostream&, const Game&);
+    friend bool operator>(const Game& lhs, const Game& rhs);
 
-    std::vector<Platform> getPlatforms() const;
+    friend std::ostream& operator<<(std::ostream& os, const Game& game);
+
 };
 
 #endif // GAME_H

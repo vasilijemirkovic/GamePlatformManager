@@ -35,6 +35,10 @@ int Game::addPlatforms(const vector<Platform>& newPlatforms) {
     return added;
 }
 
+const std::string &Game::getName() const noexcept {
+    return name;
+}
+
 bool operator>(const Game& lhs, const Game& rhs) {
     return (lhs.score >= rhs.score && lhs.releaseYear > rhs.releaseYear);
 }

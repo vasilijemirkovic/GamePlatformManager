@@ -33,15 +33,9 @@ bool Selection::containsDuplicates() const {
     return false;
 }
 
-bool Selection::allGamesSupportPlatform() const {
-    for (const auto& g : games) {
-        if (!g.supportsPlatform(platform)) return false;
-    }
-    return true;
-}
-
 void Selection::validateGames() const {
     if (selectionName.empty()) throw std::runtime_error("Invalid selection name");
+    if (containsDuplicates()) throw runtime_error("Duplicate games in selection");
 }
 
 bool Selection::isReady() const {
@@ -52,17 +46,10 @@ bool Selection::isReady() const {
     return true;
 }
 
-vector<string> Selection::compare(const vector<Selection>& others) const
-{
-    if (others.empty())
-        throw runtime_error("Nothing to compare");
-
+vector<string> Selection::compare(const vector<Selection>& others) const {
     vector<string> result;
-
-    for (const auto& other : others)
-    {
+    for (const auto& other : others) {
         string line = selectionName + " vs " + other.selectionName + ": ";
-
         if (games.size() > other.games.size())
             line += "more games";
         else if (games.size() < other.games.size())
@@ -72,23 +59,20 @@ vector<string> Selection::compare(const vector<Selection>& others) const
 
         result.push_back(line);
     }
-
     return result;
 }
 
 
 void Selection::rearrange() {
-    if (games.empty()) return;
-
     sort(games.begin(), games.end(),
-        [](const Game& lhs, const Game& rhs)
-        {
-            if (lhs.getPlatforms().empty() || rhs.getPlatforms().empty())
-                return lhs.getPlatforms().size() < rhs.getPlatforms().size();
-
-            return lhs.getPlatforms().front() < rhs.getPlatforms().front();
-        });
+         [](const Game& lhs, const Game& rhs) {
+             int pa = lhs.getPlatforms().empty() ? -1 : static_cast<int>(lhs.getPlatforms().front());
+             int pb = rhs.getPlatforms().empty() ? -1 : static_cast<int>(rhs.getPlatforms().front());
+             if (pa != pb) return pa < pb;
+             return lhs.getName() < rhs.getName();
+         });
 }
+
 
 ostream& operator<<(ostream& os, const Selection& selection) {
 

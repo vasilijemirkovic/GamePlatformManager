@@ -28,6 +28,10 @@ public:
     Platform getPlatform() const noexcept;
 
     const std::string& getName() const noexcept;
+
+    std::vector<std::string> compare(const std::vector<Selection>& others) const;
+    
+    void rearrange();
 };
 
 #endif // SELECTION_H

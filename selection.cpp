@@ -22,20 +22,8 @@ const std::string& Selection::getName() const noexcept {
     return selectionName;
 }
 
-
-bool Selection::containsDuplicates() const {
-    for (size_t i = 0; i < games.size(); ++i) {
-        for (size_t j = i + 1; j < games.size(); ++j) {
-            if (games[i].getName() == games[j].getName())
-                return true;
-        }
-    }
-    return false;
-}
-
 void Selection::validateGames() const {
     if (selectionName.empty()) throw std::runtime_error("Invalid selection name");
-    if (containsDuplicates()) throw runtime_error("Duplicate games in selection");
 }
 
 bool Selection::isReady() const {

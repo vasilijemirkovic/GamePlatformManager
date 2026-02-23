@@ -22,6 +22,8 @@ public:
     bool supportsPlatform(Platform p) const;
     int addPlatforms(const std::vector<Platform>& newPlatforms);
 
+    const std::string& getName() const noexcept;
+
     const std::vector<Platform>& getPlatforms() const noexcept;
 
     static std::vector<Game> filterByPlatform(const std::vector<Game>& games, Platform p);

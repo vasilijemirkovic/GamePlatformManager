@@ -30,7 +30,6 @@ public:
     void rearrange();
 
 private:
-    bool containsDuplicates() const;
     void validateGames() const;
 };
 

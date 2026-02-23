@@ -41,27 +41,53 @@ bool Selection::allGamesSupportPlatform() const {
 }
 
 void Selection::validateGames() const {
-
     if (selectionName.empty()) throw std::runtime_error("Invalid selection name");
-
-    if (containsDuplicates()) throw std::runtime_error("Duplicate games in selection");
-
-    if (!allGamesSupportPlatform()) throw std::runtime_error("Game does not support selection platform");
 }
 
 bool Selection::isReady() const {
-   return std::all_of(games.begin(), games.end(),
-        [this](const Game& g)
-        {
-            const auto& platforms = g.getPlatforms();
+    for (const auto& g : games)
+        if (!g.supportsPlatform(platform))
+            return false;
 
-            return std::all_of(platforms.begin(), platforms.end(),
-                [this](Platform p)
-                {
-                    return p == platform;
-                });
-        }
-    );
+    return true;
+}
+
+vector<string> Selection::compare(const vector<Selection>& others) const
+{
+    if (others.empty())
+        throw runtime_error("Nothing to compare");
+
+    vector<string> result;
+
+    for (const auto& other : others)
+    {
+        string line = selectionName + " vs " + other.selectionName + ": ";
+
+        if (games.size() > other.games.size())
+            line += "more games";
+        else if (games.size() < other.games.size())
+            line += "fewer games";
+        else
+            line += "same number of games";
+
+        result.push_back(line);
+    }
+
+    return result;
+}
+
+
+void Selection::rearrange() {
+    if (games.empty()) return;
+
+    sort(games.begin(), games.end(),
+        [](const Game& lhs, const Game& rhs)
+        {
+            if (lhs.getPlatforms().empty() || rhs.getPlatforms().empty())
+                return lhs.getPlatforms().size() < rhs.getPlatforms().size();
+
+            return lhs.getPlatforms().front() < rhs.getPlatforms().front();
+        });
 }
 
 ostream& operator<<(ostream& os, const Selection& selection) {

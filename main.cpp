@@ -72,6 +72,7 @@ int main() {
         cout << "Error10\n";
     }
 
+    // Define some games
     const Game aa{"Ace Attorney", 1999, 7, {Platform::Nintendo}};
     const Game pok{"Pokemon", 1996, 6, {Platform::Nintendo}};
     const Game rl{"Rocket League", 2014, 9, {Platform::Nintendo, Platform::Sony, Platform::Microsoft, Platform::PC}};
@@ -89,7 +90,7 @@ int main() {
     const Game tomb{"Tomb Raider", 2006, 7, {Platform::PC, Platform::Microsoft, Platform::Sony}};
     const Game fout{"Fallout", 2000, 9, {Platform::Sony, Platform::PC}};
 
-    // Test supportsPlatform
+    // Test supportsPlatform method
     cout << "\nTest supportsPlatform\n";
 
     cout << fifa.supportsPlatform(Platform::PC);
@@ -104,7 +105,7 @@ int main() {
     cout << aa.supportsPlatform(Platform::Microsoft);
     cout << '\n';
 
-    // Test addPlatforms
+    // Test addPlatforms method
     cout << "\nTest addPlatforms\n";
     vector<Platform> allPlatforms{Platform::Nintendo, Platform::Sony, Platform::Microsoft, Platform::PC};
 
@@ -134,7 +135,7 @@ int main() {
     cout << (dota > fifa) << (fifa > dota) << " ";
     cout << '\n';
 
-    // Test filterByPlatform
+    // Test filterByPlatform method
     cout << "\nTest filter\n";
 
     cout << "Nintendo:\n";
@@ -153,7 +154,7 @@ int main() {
     for (const auto& x : Game::filterByPlatform({aa,pok,rl,gw,dota,lp,fifa,uc,halo,pok,rl,gw,dota,gwar,diablo,ff,mk,spyro,tomb,fout}, Platform::PC))
         cout << x << '\n';
 
-    // Test Selection
+    // Test Selection constructor
     cout << "\nSelection\nConstructor\n";
 
     const vector<Game> games{aa,pok,rl,gw,dota,lp,fifa,uc,halo,gwar,diablo,ff,mk,spyro,tomb,fout,aa};
@@ -177,7 +178,7 @@ int main() {
     Selection mixed{"Mixed", games, Platform::Nintendo};
     const Selection cs{mic};
 
-    // Test isReady
+    // Test isReady method
     cout << "\nTest isReady\n";
     Selection empty{"empty", {}};
 
@@ -197,6 +198,7 @@ int main() {
     cout << cs << '\n';
 
 
+    // Test compare method
     cout << "\nTest compare\n";
     try {
         cout << "one\n";
@@ -219,19 +221,20 @@ int main() {
             cout << "Error13\n";
         }
         
-        cout << "\nTest rearrange\n";
-        cout << "Original:\n" << mixed << '\n';
-        mixed.rearrange();
+    // Test rearrange method
+    cout << "\nTest rearrange\n";
+    cout << "Original:\n" << mixed << '\n';
+    mixed.rearrange();
         
-        cout << "Gruppiert:\n" << mixed << '\n';
-        cout << "Original:\n" << mic << '\n';
+    cout << "Grouped:\n" << mixed << '\n';
+    cout << "Original:\n" << mic << '\n';
         
-        mic.rearrange();
+    mic.rearrange();
         
-        cout << "Gruppiert:\n" << mic << '\n';
-        empty.rearrange();
+    cout << "Grouped:\n" << mic << '\n';
+    empty.rearrange();
         
-        cout << "Gruppiert:\n" << empty << '\n';
+    cout << "Grouped:\n" << empty << '\n';
 
     return 0;
 }

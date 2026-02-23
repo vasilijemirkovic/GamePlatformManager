@@ -1,6 +1,7 @@
 #ifndef SELECTION_H
 #define SELECTION_H
 
+#include <ostream>
 #include "game.h"
 
 class Selection {
@@ -9,11 +10,6 @@ private:
     std::string selectionName;
     std::vector<Game> games;
     Platform platform;
-
-    //Private methods for validating a correctness of the input values
-    void validateGames() const;
-    bool containsDuplicates() const;
-    bool allGamesSupportPlatform() const;
 
 public:
     Selection(const std::string& selectionName, const std::vector<Game>& games,
@@ -32,6 +28,10 @@ public:
     std::vector<std::string> compare(const std::vector<Selection>& others) const;
     
     void rearrange();
+
+private:
+    bool containsDuplicates() const;
+    void validateGames() const;
 };
 
 #endif // SELECTION_H

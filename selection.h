@@ -17,6 +17,12 @@ public:
     bool isReady() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Selection& selection);
+
+    const std::vector<Game>& getGames() const noexcept;
+    
+    Platform getPlatform() const noexcept;
+
+    const std::string& getName() const noexcept;
 };
 
 #endif // SELECTION_H

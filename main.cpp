@@ -196,5 +196,42 @@ int main() {
     cout << mixed << '\n';
     cout << cs << '\n';
 
+
+    cout << "\nTest compare\n";
+    try {
+        cout << "one\n";
+        for (const auto& r : son.compare({nin,son,mic,empty,ppc,mixed}))
+            cout << r << '\n';
+        
+        cout << "two\n";
+        for (const auto& r : cs.compare({ nin,son,mic,empty,ppc,mixed }))
+            cout << r << '\n';
+            
+        cout << "three\n";
+        for (const auto& r : ppc.compare({ nin,son,mic,empty,ppc,mixed }))
+            cout << r << '\n';
+        
+        cout << "four\n";
+        for (const auto& r : empty.compare({nin,son,mic,empty,ppc,mixed}))
+            cout << r << '\n';
+        
+        }catch (runtime_error& e) { 
+            cout << "Error13\n";
+        }
+        
+        cout << "\nTest rearrange\n";
+        cout << "Original:\n" << mixed << '\n';
+        mixed.rearrange();
+        
+        cout << "Gruppiert:\n" << mixed << '\n';
+        cout << "Original:\n" << mic << '\n';
+        
+        mic.rearrange();
+        
+        cout << "Gruppiert:\n" << mic << '\n';
+        empty.rearrange();
+        
+        cout << "Gruppiert:\n" << empty << '\n';
+
     return 0;
 }

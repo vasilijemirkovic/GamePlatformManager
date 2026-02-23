@@ -21,7 +21,7 @@ public:
     Game(const std::string& name, const int& releaseYear, const int& score, const std::vector<Platform>& platforms);
 
     bool supportsPlatform(Platform p) const;
-    int addPlatforms(const std::vector<Platform>& morePlatforms);
+    int addPlatforms(const std::vector<Platform>& newPlatforms);
 
     const std::vector<Platform>& getPlatforms() const noexcept;
 

@@ -7,9 +7,7 @@ using namespace std;
 Selection::Selection(const string& selectionName, const vector<Game>& games, const Platform& platform)
     : selectionName{ selectionName }, games{ games }, platform{ platform }
 {
-    if (selectionName.empty()) {
-        throw std::runtime_error("Invalid selection name");
-    }
+    validateGames();
 }
 
 const std::vector<Game>& Selection::getGames() const noexcept {
@@ -22,6 +20,33 @@ Platform Selection::getPlatform() const noexcept {
 
 const std::string& Selection::getName() const noexcept {
     return selectionName;
+}
+
+
+bool Selection::containsDuplicates() const {
+    for (size_t i = 0; i < games.size(); ++i) {
+        for (size_t j = i + 1; j < games.size(); ++j) {
+            if (games[i].getName() == games[j].getName())
+                return true;
+        }
+    }
+    return false;
+}
+
+bool Selection::allGamesSupportPlatform() const {
+    for (const auto& g : games) {
+        if (!g.supportsPlatform(platform)) return false;
+    }
+    return true;
+}
+
+void Selection::validateGames() const {
+
+    if (selectionName.empty()) throw std::runtime_error("Invalid selection name");
+
+    if (containsDuplicates()) throw std::runtime_error("Duplicate games in selection");
+
+    if (!allGamesSupportPlatform()) throw std::runtime_error("Game does not support selection platform");
 }
 
 bool Selection::isReady() const {

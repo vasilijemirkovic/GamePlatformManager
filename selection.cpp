@@ -12,6 +12,18 @@ Selection::Selection(const string& selectionName, const vector<Game>& games, con
     }
 }
 
+const std::vector<Game>& Selection::getGames() const noexcept {
+    return games;
+}
+
+Platform Selection::getPlatform() const noexcept {
+    return platform;
+}
+
+const std::string& Selection::getName() const noexcept {
+    return selectionName;
+}
+
 bool Selection::isReady() const {
    return std::all_of(games.begin(), games.end(),
         [this](const Game& g)

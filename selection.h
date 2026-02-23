@@ -16,7 +16,7 @@ public:
 
     bool isReady() const;
 
-    friend std::ostream& operator<<(std::ostream&, const Selection&);
+    friend std::ostream& operator<<(std::ostream& os, const Selection& selection);
 };
 
 #endif // SELECTION_H

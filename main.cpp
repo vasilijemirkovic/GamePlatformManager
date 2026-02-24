@@ -236,5 +236,17 @@ int main() {
         
     cout << "Grouped:\n" << empty << '\n';
 
+
+
+    vector<Game> saveGames  = { aa, pok, rl, dota };
+    
+    Game::saveToFile(saveGames , "games.txt");
+    
+    auto loaded = Game::loadFromFile("games.txt");
+    
+    cout << "\nLoaded games:\n";
+    
+    for (const auto& g : loaded) cout << g << '\n';
+
     return 0;
 }

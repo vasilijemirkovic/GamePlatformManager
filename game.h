@@ -32,6 +32,12 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Game& game);
 
+    //File load/save system
+    
+    static void saveToFile(const std::vector<Game>& games, const std::string& filename);
+
+    static std::vector<Game> loadFromFile(const std::string& filename);
+
 };
 
 #endif // GAME_H

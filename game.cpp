@@ -1,6 +1,10 @@
 #include "game.h"
 #include <algorithm>
 #include <stdexcept>
+#include <fstream>
+#include <sstream>
+
+Platform stringToPlatform(const std::string& s);
 
 using namespace std;
 
@@ -68,4 +72,70 @@ ostream& operator<<(ostream& os, const Game& game) {
     }
 
     return os << "}]";
+}
+
+
+void Game::saveToFile(const std::vector<Game>& games, const std::string& filename) {
+
+    ofstream file(filename);
+
+    if (!file)
+        throw runtime_error("Cannot open file for writing");
+
+    for (const auto& g : games) {
+        file << g.name << ";" << g.releaseYear << ";" << g.score << ";";
+
+        for (size_t i = 0; i < g.getPlatforms().size(); ++i) {
+            file << platformNames.at(static_cast<int>(g.getPlatforms()[i]));
+            if (i + 1 < g.getPlatforms().size())
+                file << ",";
+        }
+
+        file << "\n";
+    }
+}
+
+vector<Game> Game::loadFromFile(const string& filename) {
+    
+    ifstream file(filename);
+
+    if (!file)
+        throw runtime_error("Cannot open file for reading");
+
+    vector<Game> games;
+    string line;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+
+        string name, yearStr, scoreStr, platformsStr;
+
+        getline(ss, name, ';');
+        getline(ss, yearStr, ';');
+        getline(ss, scoreStr, ';');
+        getline(ss, platformsStr, ';');
+
+        int year = stoi(yearStr);
+        int score = stoi(scoreStr);
+
+        vector<Platform> platforms;
+        stringstream ps(platformsStr);
+        string p;
+
+        while (getline(ps, p, ',')) {
+            platforms.push_back(stringToPlatform(p));
+        }
+
+        games.emplace_back(name, year, score, platforms);
+    }
+
+    return games;
+}
+
+Platform stringToPlatform(const std::string& s) {
+    for (size_t i = 0; i < platformNames.size(); ++i) {
+        if (platformNames[i] == s)
+            return static_cast<Platform>(i);
+    }
+    throw std::runtime_error("Unknown platform: " + s);
 }
